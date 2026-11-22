@@ -1,0 +1,917 @@
+/* ==========================================================================
+   CSS CHO TRANG 3: NỘP ĐỒ ÁN & XEM CHI TIẾT ĐỒ ÁN (DÀNH CHO SINH VIÊN)
+   Tất cả class đều sử dụng tiền tố [sp-] để tránh xung đột CSS khi gộp nhánh.
+   Màu chủ đạo: #00008B (Xanh dương đậm)
+   Nền trang: #F4F6FA | Thẻ nội dung: #FFFFFF
+   ========================================================================== */
+
+/* 1. RESET VÀ BIẾN TOÀN CỤC */
+:root {
+    --sp-primary: #00008B;            /* Màu chủ đạo xanh dương đậm */
+    --sp-primary-hover: #000070;      /* Hover xanh đậm hơn */
+    --sp-primary-light: #EBF0FF;      /* Nền phụ xanh nhạt */
+    --sp-bg-main: #F4F6FA;            /* Nền sáng toàn trang */
+    --sp-card-bg: #FFFFFF;            /* Nền thẻ màu trắng */
+    --sp-text-main: #1E293B;          /* Chữ chính đậm rõ nét */
+    --sp-text-muted: #64748B;         /* Chữ phụ xám */
+    --sp-border-color: #E2E8F0;       /* Viền thẻ và bảng */
+    --sp-border-focus: #00008B;       /* Viền khi focus */
+    
+    /* Màu trạng thái */
+    --sp-success-color: #059669;      /* Xanh lá cho Đã nộp */
+    --sp-success-bg: #ECFDF5;
+    --sp-warning-color: #D97706;      /* Cam vàng cho Chưa nộp / Cảnh báo */
+    --sp-warning-bg: #FFFBEB;
+    --sp-danger-color: #DC2626;       /* Đỏ cho Trễ hạn / Lỗi / Nút Xóa */
+    --sp-danger-bg: #FEF2F2;
+
+    /* Shadow & Bo góc */
+    --sp-radius-sm: 6px;
+    --sp-radius-md: 10px;
+    --sp-radius-lg: 14px;
+    --sp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --sp-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
+    --sp-shadow-lg: 0 10px 25px rgba(0, 0, 139, 0.08);
+    --sp-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. BODY */
+body.sp-body {
+    font-family: var(--sp-font-family);
+    background-color: var(--sp-bg-main);
+    color: var(--sp-text-main);
+    line-height: 1.6;
+    font-size: 14px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3. HEADER ĐƠN GIẢN */
+.sp-header {
+    background-color: #FFFFFF;
+    border-bottom: 2px solid var(--sp-border-color);
+    box-shadow: var(--sp-shadow-sm);
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.sp-header-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.sp-header-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--sp-primary);
+    background-color: var(--sp-primary-light);
+    padding: 3px 8px;
+    border-radius: var(--sp-radius-sm);
+    margin-bottom: 4px;
+}
+
+.sp-header-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--sp-primary);
+    line-height: 1.3;
+}
+
+.sp-header-subtitle {
+    font-size: 13px;
+    color: var(--sp-text-muted);
+}
+
+.sp-header-student-tag {
+    background-color: var(--sp-bg-main);
+    border: 1px solid var(--sp-border-color);
+    padding: 8px 14px;
+    border-radius: var(--sp-radius-md);
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+
+.sp-student-role {
+    font-size: 11px;
+    color: var(--sp-text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.sp-student-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sp-primary);
+}
+
+/* 4. MAIN CONTAINER & BỐ CỤC 2 CỘT */
+.sp-main-container {
+    max-width: 1240px;
+    width: 100%;
+    margin: 24px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+.sp-two-column-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+    align-items: start;
+}
+
+/* 5. CARD CHUNG */
+.sp-card {
+    background-color: var(--sp-card-bg);
+    border: 1px solid var(--sp-border-color);
+    border-radius: var(--sp-radius-lg);
+    box-shadow: var(--sp-shadow-md);
+    padding: 24px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sp-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--sp-border-color);
+}
+
+.sp-card-header-icon {
+    font-size: 24px;
+    line-height: 1;
+    background-color: var(--sp-primary-light);
+    padding: 8px;
+    border-radius: var(--sp-radius-md);
+}
+
+.sp-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--sp-primary);
+    line-height: 1.3;
+}
+
+.sp-card-desc {
+    font-size: 12.5px;
+    color: var(--sp-text-muted);
+    margin-top: 2px;
+}
+
+/* 6. COUNTDOWN BOX */
+.sp-countdown-card {
+    background: linear-gradient(135deg, #00008B 0%, #1e3a8a 100%);
+    color: #FFFFFF;
+    border-radius: var(--sp-radius-md);
+    padding: 16px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 15px rgba(0, 0, 139, 0.25);
+}
+
+.sp-countdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 8px;
+}
+
+.sp-countdown-label {
+    font-weight: 500;
+    opacity: 0.95;
+}
+
+.sp-countdown-deadline {
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: var(--sp-radius-sm);
+}
+
+.sp-countdown-timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.sp-timer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    border-radius: var(--sp-radius-sm);
+    min-width: 58px;
+    padding: 6px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sp-timer-number {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.sp-timer-text {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.85;
+    margin-top: 2px;
+}
+
+.sp-timer-sep {
+    font-size: 20px;
+    font-weight: 700;
+    opacity: 0.7;
+    margin-bottom: 12px;
+}
+
+.sp-countdown-status {
+    text-align: center;
+    font-size: 11.5px;
+    margin-top: 8px;
+    color: #A7F3D0;
+    font-weight: 500;
+}
+
+.sp-countdown-status.is-expired {
+    color: #FCA5A5;
+}
+
+/* 7. FORM NỘP ĐỒ ÁN (PHẦN 1) */
+.sp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sp-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sp-label {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--sp-text-main);
+}
+
+.sp-required {
+    color: var(--sp-danger-color);
+}
+
+.sp-optional {
+    color: var(--sp-text-muted);
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.sp-input, .sp-textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 13.5px;
+    padding: 10px 14px;
+    background-color: #FFFFFF;
+    border: 1.5px solid var(--sp-border-color);
+    border-radius: var(--sp-radius-sm);
+    color: var(--sp-text-main);
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.sp-input:focus, .sp-textarea:focus {
+    border-color: var(--sp-primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 139, 0.12);
+}
+
+.sp-input.is-invalid, .sp-textarea.is-invalid {
+    border-color: var(--sp-danger-color);
+    background-color: #FFFDFD;
+}
+
+.sp-input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.sp-input-icon {
+    position: absolute;
+    left: 12px;
+    font-size: 15px;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.sp-input-url {
+    padding-left: 38px;
+}
+
+.sp-error-message {
+    display: none;
+    font-size: 12px;
+    color: var(--sp-danger-color);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.sp-error-message.show {
+    display: block;
+}
+
+.sp-input-hint {
+    font-size: 11.5px;
+    color: var(--sp-text-muted);
+}
+
+.sp-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.sp-form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+/* 8. BUTTONS */
+.sp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: var(--sp-radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.sp-btn-primary {
+    background-color: var(--sp-primary);
+    color: #FFFFFF;
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(0, 0, 139, 0.25);
+}
+
+.sp-btn-primary:hover {
+    background-color: var(--sp-primary-hover);
+    box-shadow: 0 4px 10px rgba(0, 0, 139, 0.35);
+    transform: translateY(-1px);
+}
+
+.sp-btn-primary:active {
+    transform: translateY(0);
+}
+
+.sp-btn-secondary {
+    background-color: #E2E8F0;
+    color: var(--sp-text-main);
+}
+
+.sp-btn-secondary:hover {
+    background-color: #CBD5E1;
+}
+
+.sp-btn-outline {
+    background-color: #FFFFFF;
+    color: var(--sp-primary);
+    border: 1.5px solid var(--sp-primary);
+    padding: 8px 16px;
+    font-size: 13px;
+}
+
+.sp-btn-outline:hover {
+    background-color: var(--sp-primary-light);
+    color: var(--sp-primary);
+}
+
+.sp-btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: var(--sp-radius-sm);
+}
+
+/* Nút xóa màu đỏ viền nhẹ */
+.sp-btn-danger-outline {
+    background-color: #FFFFFF;
+    color: var(--sp-danger-color);
+    border: 1.5px solid var(--sp-danger-color);
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: var(--sp-radius-sm);
+}
+
+.sp-btn-danger-outline:hover {
+    background-color: var(--sp-danger-bg);
+    color: #B91C1C;
+    border-color: #B91C1C;
+}
+
+.sp-action-btns {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+
+/* 9. BADGE TRẠNG THÁI */
+.sp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.sp-badge::before {
+    content: "●";
+    font-size: 8px;
+}
+
+.sp-badge-success {
+    background-color: var(--sp-success-bg);
+    color: var(--sp-success-color);
+    border: 1px solid #A7F3D0;
+}
+
+.sp-badge-warning {
+    background-color: var(--sp-warning-bg);
+    color: var(--sp-warning-color);
+    border: 1px solid #FDE68A;
+}
+
+.sp-badge-danger {
+    background-color: var(--sp-danger-bg);
+    color: var(--sp-danger-color);
+    border: 1px solid #FECACA;
+}
+
+/* 10. PHẦN 2: CHI TIẾT MỚI NỘP & KIỂM TRA SAI SÓT */
+.sp-detail-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    background-color: var(--sp-bg-main);
+    border: 2px dashed var(--sp-border-color);
+    border-radius: var(--sp-radius-md);
+    min-height: 380px;
+}
+
+.sp-detail-empty-icon {
+    font-size: 46px;
+    margin-bottom: 12px;
+    opacity: 0.75;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+}
+
+.sp-detail-empty-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--sp-primary);
+    margin-bottom: 8px;
+}
+
+.sp-detail-empty-desc {
+    font-size: 13px;
+    color: var(--sp-text-muted);
+    max-width: 420px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+}
+
+.sp-detail-empty-desc strong {
+    color: var(--sp-primary);
+}
+
+.sp-detail-empty-desc em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--sp-text-main);
+}
+
+.sp-detail-content {
+    display: block;
+}
+
+.sp-detail-box {
+    background-color: var(--sp-bg-main);
+    border: 1px solid var(--sp-border-color);
+    border-radius: var(--sp-radius-md);
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.sp-detail-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--sp-border-color);
+}
+
+.sp-detail-sublabel {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--sp-text-muted);
+}
+
+.sp-detail-version {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--sp-primary);
+    margin-top: 2px;
+}
+
+.sp-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.sp-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sp-detail-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sp-text-muted);
+}
+
+.sp-detail-value {
+    font-size: 13.5px;
+    color: var(--sp-text-main);
+    word-break: break-all;
+}
+
+.sp-detail-link {
+    color: var(--sp-primary);
+    text-decoration: underline;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sp-detail-link:hover {
+    color: var(--sp-primary-hover);
+}
+
+.sp-detail-note {
+    font-size: 13px;
+    background: #FFFFFF;
+    border: 1px solid var(--sp-border-color);
+    padding: 10px 12px;
+    border-radius: var(--sp-radius-sm);
+    color: #334155;
+    white-space: pre-line;
+}
+
+.sp-text-muted {
+    color: var(--sp-text-muted);
+    font-style: italic;
+}
+
+/* KHU VỰC CHECKLIST TỰ RÀ SOÁT */
+.sp-checklist-box {
+    background-color: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-radius: var(--sp-radius-md);
+    padding: 16px;
+    margin-bottom: 18px;
+}
+
+.sp-checklist-title {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #92400E;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.sp-checklist-desc {
+    font-size: 12px;
+    color: #78350F;
+    margin-bottom: 12px;
+}
+
+.sp-checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sp-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 12.5px;
+    color: #451A03;
+    user-select: none;
+}
+
+.sp-checkbox {
+    margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--sp-primary);
+}
+
+.sp-checkbox-text strong {
+    color: #00008B;
+}
+
+.sp-detail-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sp-detail-action-hint {
+    font-size: 11.5px;
+    color: var(--sp-text-muted);
+}
+
+/* 11. PHẦN 3: LỊCH SỬ NỘP BÀI (TABLE) */
+.sp-history-section {
+    margin-top: 8px;
+}
+
+.sp-history-header {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sp-history-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sp-history-counter {
+    font-size: 13px;
+    background-color: var(--sp-primary-light);
+    color: var(--sp-primary);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+}
+
+.sp-table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--sp-border-color);
+    border-radius: var(--sp-radius-md);
+}
+
+.sp-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 13px;
+    background-color: #FFFFFF;
+}
+
+.sp-table th {
+    background-color: #F8FAFC;
+    color: var(--sp-text-main);
+    font-weight: 700;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--sp-border-color);
+    white-space: nowrap;
+}
+
+.sp-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--sp-border-color);
+    vertical-align: middle;
+}
+
+.sp-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.sp-table tbody tr:hover {
+    background-color: #F8FAFC;
+}
+
+.sp-table tbody tr.is-selected {
+    background-color: var(--sp-primary-light);
+}
+
+.sp-history-url {
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+    color: var(--sp-primary);
+    text-decoration: underline;
+}
+
+.sp-empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--sp-text-muted);
+}
+
+.sp-empty-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    opacity: 0.6;
+}
+
+.sp-empty-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sp-text-main);
+}
+
+.sp-empty-desc {
+    font-size: 12.5px;
+    margin-top: 4px;
+}
+
+/* 12. TOAST NOTIFICATION */
+.sp-toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #FFFFFF;
+    color: var(--sp-text-main);
+    border-left: 5px solid var(--sp-success-color);
+    border-radius: var(--sp-radius-md);
+    box-shadow: var(--sp-shadow-lg);
+    padding: 14px 18px;
+    min-width: 280px;
+    max-width: 400px;
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sp-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.sp-toast-icon {
+    width: 26px;
+    height: 26px;
+    background-color: var(--sp-success-color);
+    color: #FFFFFF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.sp-toast-title {
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--sp-text-main);
+}
+
+.sp-toast-message {
+    font-size: 12px;
+    color: var(--sp-text-muted);
+}
+
+/* 13. FOOTER */
+.sp-footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: var(--sp-text-muted);
+    border-top: 1px solid var(--sp-border-color);
+    background-color: #FFFFFF;
+    margin-top: 30px;
+}
+
+/* 14. RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+    .sp-two-column-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sp-header-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sp-header-student-tag {
+        text-align: left;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .sp-card {
+        padding: 16px;
+    }
+
+    .sp-header {
+        padding: 12px 16px;
+    }
+
+    .sp-header-title {
+        font-size: 18px;
+    }
+
+    .sp-countdown-timer {
+        gap: 4px;
+    }
+
+    .sp-timer-item {
+        min-width: 48px;
+        padding: 4px 2px;
+    }
+
+    .sp-timer-number {
+        font-size: 18px;
+    }
+
+    .sp-form-actions {
+        flex-direction: column;
+    }
+
+    .sp-history-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .sp-action-btns {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .sp-btn-sm {
+        width: 100%;
+    }
+}

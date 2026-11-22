@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang 3: Nộp đồ án & Xem chi tiết đồ án - Dành cho Sinh viên</title>
+    <!-- Nhúng Font chữ hiện đại Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- File CSS riêng biệt đặt trong thư mục css/ theo chuẩn nhóm -->
+    <link rel="stylesheet" href="css/submit-project.css">
+</head>
+<body class="sp-body">
+
+    <!-- HEADER ĐƠN GIẢN: Độc lập để dễ gộp chung layout/menu sau này -->
+    <header class="sp-header">
+        <div class="sp-header-container">
+            <div class="sp-header-title-box">
+                <span class="sp-header-badge">Hệ thống Quản lý Đồ án & Tiến độ Báo cáo</span>
+                <h1 class="sp-header-title">Trang 3: Nộp đồ án &amp; Xem chi tiết đồ án</h1>
+                <p class="sp-header-subtitle">Dành cho Sinh viên | Quản lý phiên bản nộp, kiểm tra sai sót và rà soát lịch sử bài nộp</p>
+            </div>
+            <div class="sp-header-student-tag">
+                <span class="sp-student-role">Sinh viên thực hiện</span>
+                <span class="sp-student-name">Nguyễn Văn A (MSSV: 21000123)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- THÔNG BÁO TOAST NỔI (KHI THAO TÁC THÀNH CÔNG/LỖI) -->
+    <div id="spToast" class="sp-toast" role="alert" aria-live="assertive">
+        <div class="sp-toast-icon">✓</div>
+        <div class="sp-toast-content">
+            <div class="sp-toast-title" id="spToastTitle">Thông báo</div>
+            <div class="sp-toast-message" id="spToastMessage">Nộp đồ án thành công!</div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="sp-main-container">
+        
+        <!-- HÀNG 1: BỐ CỤC 2 CỘT (PHẦN 1: FORM NỘP ĐỒ ÁN & COUNTDOWN | PHẦN 2: CHI TIẾT MỚI NỘP & RÀ SOÁT) -->
+        <div class="sp-two-column-layout">
+            
+            <!-- ========================================== -->
+            <!-- PHẦN 1: NỘP ĐỒ ÁN (FORM + COUNTDOWN)       -->
+            <!-- ========================================== -->
+            <section class="sp-card sp-submit-section" id="spSubmitSection">
+                <div class="sp-card-header">
+                    <div class="sp-card-header-icon">📤</div>
+                    <div>
+                        <h2 class="sp-card-title">Phần 1: Nộp đồ án</h2>
+                        <p class="sp-card-desc">Gửi link đồ án, mã nguồn hoặc slide báo cáo cho đợt đánh giá hiện tại</p>
+                    </div>
+                </div>
+
+                <!-- BOX ĐỒNG HỒ ĐẾM NGƯỢC (COUNTDOWN REAL-TIME) -->
+                <div class="sp-countdown-card">
+                    <div class="sp-countdown-header">
+                        <span class="sp-countdown-label">⏳ Hạn nộp báo cáo đợt này:</span>
+                        <span class="sp-countdown-deadline" id="spDeadlineText">23:59:59 - 28/11/2026</span>
+                    </div>
+                    <div class="sp-countdown-timer" id="spCountdownTimer">
+                        <div class="sp-timer-item">
+                            <span class="sp-timer-number" id="spTimerDays">00</span>
+                            <span class="sp-timer-text">Ngày</span>
+                        </div>
+                        <div class="sp-timer-sep">:</div>
+                        <div class="sp-timer-item">
+                            <span class="sp-timer-number" id="spTimerHours">00</span>
+                            <span class="sp-timer-text">Giờ</span>
+                        </div>
+                        <div class="sp-timer-sep">:</div>
+                        <div class="sp-timer-item">
+                            <span class="sp-timer-number" id="spTimerMinutes">00</span>
+                            <span class="sp-timer-text">Phút</span>
+                        </div>
+                        <div class="sp-timer-sep">:</div>
+                        <div class="sp-timer-item">
+                            <span class="sp-timer-number" id="spTimerSeconds">00</span>
+                            <span class="sp-timer-text">Giây</span>
+                        </div>
+                    </div>
+                    <div class="sp-countdown-status" id="spCountdownStatus">
+                        ● Hệ thống đang mở nhận bài nộp
+                    </div>
+                </div>
+
+                <!-- FORM NỘP ĐỒ ÁN -->
+                <form id="spProjectForm" class="sp-form" novalidate>
+                    <!-- Tên đồ án / Phiên bản nộp -->
+                    <div class="sp-form-group">
+                        <label for="spVersionInput" class="sp-label">
+                            Tên đồ án / Phiên bản nộp <span class="sp-required">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="spVersionInput" 
+                            name="version" 
+                            class="sp-input" 
+                            placeholder="Ví dụ: v1.0 - Báo cáo tiến độ tuần 5" 
+                            required
+                        >
+                        <div class="sp-error-message" id="spVersionError">Vui lòng nhập tên đồ án hoặc phiên bản nộp.</div>
+                    </div>
+
+                    <!-- URL đồ án -->
+                    <div class="sp-form-group">
+                        <label for="spUrlInput" class="sp-label">
+                            Đường dẫn (URL) đồ án <span class="sp-required">*</span>
+                        </label>
+                        <div class="sp-input-with-icon">
+                            <span class="sp-input-icon">🔗</span>
+                            <input 
+                                type="url" 
+                                id="spUrlInput" 
+                                name="projectUrl" 
+                                class="sp-input sp-input-url" 
+                                placeholder="https://github.com/myteam/project hoặc https://drive.google.com/..." 
+                                required
+                            >
+                        </div>
+                        <div class="sp-error-message" id="spUrlError">Đường dẫn không hợp lệ! Vui lòng bắt đầu bằng http:// hoặc https://</div>
+                        <small class="sp-input-hint">Chấp nhận link GitHub, GitLab, Google Drive, hoặc đường dẫn Demo online.</small>
+                    </div>
+
+                    <!-- Ghi chú (Tùy chọn) -->
+                    <div class="sp-form-group">
+                        <label for="spNoteInput" class="sp-label">
+                            Ghi chú bổ sung <span class="sp-optional">(Tùy chọn)</span>
+                        </label>
+                        <textarea 
+                            id="spNoteInput" 
+                            name="note" 
+                            class="sp-textarea" 
+                            rows="3" 
+                            placeholder="Mô tả tóm tắt tính năng mới, tài khoản test, lưu ý cho GVHD..."
+                        ></textarea>
+                    </div>
+
+                    <!-- Nút nộp đồ án -->
+                    <div class="sp-form-actions">
+                        <button type="submit" class="sp-btn sp-btn-primary" id="spBtnSubmit">
+                            <span class="sp-btn-icon">🚀</span>
+                            <span id="spSubmitBtnText">Nộp đồ án</span>
+                        </button>
+                        <button type="button" class="sp-btn sp-btn-secondary" id="spBtnResetForm" style="display: none;">
+                            Hủy sửa / Đặt lại
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- ============================================================== -->
+            <!-- PHẦN 2: XEM CHI TIẾT ĐỒ ÁN MỚI NỘP & KIỂM TRA SAI SÓT         -->
+            <!-- ============================================================== -->
+            <section class="sp-card sp-detail-section" id="spDetailSection">
+                <div class="sp-card-header">
+                    <div class="sp-card-header-icon">📋</div>
+                    <div>
+                        <h2 class="sp-card-title">Phần 2: Chi tiết đồ án mới nộp &amp; Kiểm tra sai sót</h2>
+                        <p class="sp-card-desc">Rà soát kỹ thông tin vừa nộp trước khi hội đồng khóa nộp</p>
+                    </div>
+                </div>
+
+                <!-- KHUNG TRẠNG THÁI TRỐNG (EMPTY STATE BAN ĐẦU KHI CHƯA CHỌN) -->
+                <div class="sp-detail-empty-state" id="spDetailEmptyState">
+                    <div class="sp-detail-empty-icon">📂</div>
+                    <h3 class="sp-detail-empty-title">Chưa có đồ án nào được chọn</h3>
+                    <p class="sp-detail-empty-desc">
+                        Vui lòng bấm nút <strong>"Xem chi tiết"</strong> tại <em>Phần 3: Lịch sử nộp bài</em> bên dưới (hoặc nộp đồ án mới ở Phần 1) để xem thông tin và kiểm tra sai sót.
+                    </p>
+                    <button type="button" class="sp-btn sp-btn-outline sp-btn-sm" id="spBtnScrollToHistory">
+                        <span>Đi tới Lịch sử nộp bài ↓</span>
+                    </button>
+                </div>
+
+                <!-- KHUNG NỘI DUNG CHI TIẾT (CHỈ HIỂN THỊ KHI ĐÃ CHỌN HOẶC NỘP ĐỒ ÁN) -->
+                <div class="sp-detail-content" id="spDetailContent" style="display: none;">
+                    <!-- KHUNG CHI TIẾT BẢN NỘP GẦN NHẤT -->
+                    <div class="sp-detail-box" id="spLatestSubmissionBox">
+                        <div class="sp-detail-top">
+                            <div class="sp-detail-version-wrapper">
+                                <span class="sp-detail-sublabel">Phiên bản đang chọn xem:</span>
+                                <h3 class="sp-detail-version" id="spDetailVersionName">Chưa có bài nộp nào</h3>
+                            </div>
+                            <span class="sp-badge sp-badge-warning" id="spDetailStatusBadge">Chưa nộp</span>
+                        </div>
+
+                        <div class="sp-detail-grid">
+                            <div class="sp-detail-item">
+                                <span class="sp-detail-label">🕒 Thời gian nộp:</span>
+                                <span class="sp-detail-value" id="spDetailSubmitTime">--:--:-- --/--/----</span>
+                            </div>
+                            <div class="sp-detail-item">
+                                <span class="sp-detail-label">🔗 Liên kết sản phẩm:</span>
+                                <div class="sp-detail-value" id="spDetailUrlContainer">
+                                    <span class="sp-text-muted">Chưa có liên kết</span>
+                                </div>
+                            </div>
+                            <div class="sp-detail-item sp-detail-item-full">
+                                <span class="sp-detail-label">📝 Ghi chú từ sinh viên:</span>
+                                <p class="sp-detail-note" id="spDetailNote">Chưa có dữ liệu ghi chú.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KHU VỰC TỰ RÀ SOÁT / KIỂM TRA SAI SÓT TRƯỚC KHI CHỐT -->
+                    <div class="sp-checklist-box">
+                        <h4 class="sp-checklist-title">
+                            <span class="sp-checklist-icon">⚠️</span> Danh sách tự kiểm tra sai sót (Rà soát nhanh)
+                        </h4>
+                        <p class="sp-checklist-desc">Sinh viên chủ động tích chọn để kiểm tra tính chính xác và đầy đủ:</p>
+                        
+                        <ul class="sp-checklist">
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk1">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đường dẫn Google Drive / OneDrive đã bật quyền <strong>"Bất kỳ ai có liên kết đều có thể xem"</strong>?</span>
+                                </label>
+                            </li>
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk2">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đường dẫn GitHub Repository là <strong>Public</strong> hoặc đã cấp quyền truy cập cho Giảng viên?</span>
+                                </label>
+                            </li>
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk3">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đúng link mã nguồn/slide của <strong>phiên bản mới nhất</strong> (đã commit/push đủ mã nguồn)?</span>
+                                </label>
+                            </li>
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk4">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đã đính kèm hướng dẫn cấu hình &amp; tài khoản kiểm thử (nếu có) trong phần Ghi chú?</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- NÚT CHỈNH SỬA / NỘP LẠI -->
+                    <div class="sp-detail-actions">
+                        <button type="button" class="sp-btn sp-btn-outline" id="spBtnEditSubmission">
+                            <span class="sp-btn-icon">✏️</span>
+                            <span>Chỉnh sửa / Nộp lại bản này</span>
+                        </button>
+                        <span class="sp-detail-action-hint">Nút này sẽ đổ dữ liệu bản đang xem lên Form phía trên để bạn cập nhật nhanh.</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PHẦN 3: LỊCH SỬ NỘP BÀI                   -->
+        <!-- ========================================== -->
+        <section class="sp-card sp-history-section" id="spHistorySection">
+            <div class="sp-card-header sp-history-header">
+                <div class="sp-history-title-wrap">
+                    <div class="sp-card-header-icon">📜</div>
+                    <div>
+                        <h2 class="sp-card-title">Phần 3: Lịch sử nộp bài</h2>
+                        <p class="sp-card-desc">Danh sách toàn bộ các lần đã nộp đồ án qua các mốc báo cáo</p>
+                    </div>
+                </div>
+                <div class="sp-history-counter">
+                    Tổng số lần nộp: <strong id="spHistoryCount">0</strong>
+                </div>
+            </div>
+
+            <!-- BẢNG LỊCH SỬ NỘP -->
+            <div class="sp-table-responsive">
+                <table class="sp-table" id="spHistoryTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px; text-align: center;">STT</th>
+                            <th>Phiên bản / Tên đồ án</th>
+                            <th>Thời gian nộp</th>
+                            <th style="text-align: center;">Trạng thái</th>
+                            <th>Đường dẫn liên kết (URL)</th>
+                            <th style="width: 190px; text-align: center;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spHistoryTableBody">
+                        <!-- Dữ liệu sẽ được JavaScript sinh tự động từ localStorage hoặc dữ liệu mẫu -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Trạng thái trống (nếu không có bản ghi) -->
+            <div id="spEmptyState" class="sp-empty-state" style="display: none;">
+                <div class="sp-empty-icon">📂</div>
+                <p class="sp-empty-title">Chưa có lịch sử nộp bài</p>
+                <p class="sp-empty-desc">Hãy sử dụng Form ở Phần 1 để nộp bản báo cáo đầu tiên của bạn.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER NHẸ ĐỘC LẬP -->
+    <footer class="sp-footer">
+        <p>© 2026 Hệ thống Quản lý Đồ án &amp; Tiến độ Báo cáo — Phân hệ Sinh viên</p>
+    </footer>
+
+    <!-- File JavaScript riêng biệt đặt trong thư mục js/ theo chuẩn nhóm -->
+    <script src="js/submit-project.js"></script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Project Milestone — Trang chấm điểm & nhận xét giảng viên
 
 Giao diện minh họa cho học phần **Thiết kế & Lập trình Web**, giúp giảng viên xem bài nộp theo từng mốc, chấm điểm bằng rubric và gửi nhận xét cho nhóm sinh viên. Trang được xây dựng bằng **HTML5, CSS3 và JavaScript thuần**, không cần cài đặt thư viện hay chạy máy chủ.
@@ -32,3 +33,13 @@ Giao diện dùng tiếng Việt, hỗ trợ bàn phím, có các nhãn ARIA cho
 ## Lưu ý về dữ liệu
 
 Đây là bản trình diễn giao diện **không có máy chủ hay cơ sở dữ liệu**. Điểm, nhận xét, tệp đính kèm và phiên bản mới chỉ được giữ trong bộ nhớ của tab hiện tại; tải lại trang sẽ khôi phục dữ liệu mẫu. Nút **Lưu & Gửi điểm** mô phỏng việc công bố điểm trong giao diện, không gửi dữ liệu đến sinh viên thật.
+=======
+# Trang 3: Nộp đồ án & Xem chi tiết đồ án (Sinh viên)
+
+- **Người thực hiện:** Đinh Trung Hiếu
+- **Thư mục code:** `hieu_trang3/`
+- **Chức năng chính:**
+  - Form nộp link đồ án kèm kiểm tra định dạng URL và đồng hồ đếm ngược (Countdown).
+  - Xem chi tiết đồ án mới nộp, badge trạng thái và danh sách kiểm tra sai sót.
+  - Chỉnh sửa, cập nhật lại bản nộp và xóa bản cũ trong lịch sử nộp bài (lưu bằng `localStorage`).
+>>>>>>> origin/Hieu
