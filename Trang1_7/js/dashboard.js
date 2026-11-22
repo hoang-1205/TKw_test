@@ -72,20 +72,20 @@
     };
     const roleItems = role === "lecturer"
       ? [
-          { label: "Timeline dự án", icon: "timeline" },
-          { label: "Danh sách sinh viên và đồ án", icon: "people" },
-          { label: "Chấm điểm và nhận xét", icon: "review" },
-          { label: "Hồ sơ sinh viên", icon: "project" }
+          { label: "Timeline dự án", icon: "timeline", href: "../timeline/index.html" },
+          { label: "Danh sách sinh viên và đồ án", icon: "people", href: "../Trang6-Nhu/Trang6/student-detail.html" },
+          { label: "Chấm điểm và nhận xét", icon: "review", href: "../Trang_5/index.html" },
+          { label: "Hồ sơ sinh viên", icon: "project", href: "../Trang6-Nhu/Trang6/student-detail.html" }
         ]
       : [
-          { label: "Timeline dự án", icon: "timeline" },
-          { label: "Đồ án của tôi", icon: "project" },
-          { label: "Điểm và nhận xét", icon: "grade" }
+          { label: "Timeline dự án", icon: "timeline", href: "../timeline/index.html" },
+          { label: "Đồ án của tôi", icon: "project", href: "../hieu_trang3/hieuindex.html" },
+          { label: "Điểm và nhận xét", icon: "grade", href: "../diem-nhan-xet/index.html" }
         ];
 
     const home = `<a class="nav-item active" href="index.html?role=${role}" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true">${icons.home}</svg><span>Trang chủ</span></a>`;
     const items = roleItems.map(item =>
-      `<button class="nav-item" type="button" data-unavailable="${escapeHtml(item.label)}"><svg viewBox="0 0 24 24" aria-hidden="true">${icons[item.icon]}</svg><span>${escapeHtml(item.label)}</span></button>`
+      `<a class="nav-item" href="${item.href}"><svg viewBox="0 0 24 24" aria-hidden="true">${icons[item.icon]}</svg><span>${escapeHtml(item.label)}</span></a>`
     ).join("");
     document.getElementById("sidebarNav").innerHTML = home + items;
   }

@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#00008B">
   <title>Chấm điểm & nhận xét | Project Milestone</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../navigation.css">
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -21,6 +22,12 @@
   <div class="app-shell">
     <div id="sidebar-scrim" class="sidebar-scrim" hidden></div>
     <aside class="queue-sidebar" id="queue-sidebar" aria-label="Hàng đợi chấm bài">
+      <nav class="site-links" aria-label="Điều hướng website">
+        <a href="../index.html">Trang chủ</a>
+        <a href="../timeline/index.html">Timeline dự án</a>
+        <a href="../Trang6-Nhu/Trang6/student-detail.html">Danh sách sinh viên</a>
+        <a href="index.html" aria-current="page">Chấm điểm &amp; nhận xét</a>
+      </nav>
       <div class="sidebar-head"><div><p class="eyebrow">KHÔNG GIAN CHẤM BÀI</p><h1>Danh sách nhóm <span id="group-count">08</span></h1></div><button id="sidebar-close" class="icon-button mobile-only" type="button" aria-label="Đóng danh sách nhóm">✕</button></div>
       <div class="queue-controls"><label class="search-wrap"><span class="sr-only">Tìm nhóm hoặc sinh viên</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input id="queue-search" type="search" placeholder="Tìm nhóm hoặc sinh viên…" autocomplete="off"></label><div id="filter-chips" class="filter-chips" role="group" aria-label="Lọc hàng đợi"></div></div>
       <div class="queue-section-title"><span>HÀNG ĐỢI</span><span id="filtered-count">8 nhóm</span></div>

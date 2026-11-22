@@ -967,3 +967,5 @@ html.auth-document {
     animation: none;
   }
 }
+.home-link { display: inline-block; margin-bottom: 16px; color: #aebeff; font-weight: 700; text-decoration: none; }
+.home-link:hover, .home-link:focus-visible { color: #fff; text-decoration: underline; }
