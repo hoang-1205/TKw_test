@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="vi" class="auth-document">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080B14">
+  <title>Project Milestone - Đăng nhập</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page" data-light="blue" data-lamp="off">
+  <a class="skip-link" href="#authFormPanel">Bỏ qua đến biểu mẫu</a>
+  <main class="auth-layout">
+    <section class="auth-showcase" aria-label="Giới thiệu Project Milestone">
+      <div class="showcase-brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M7 8.5h18v15H7z"/><path d="M11 12h10M11 16h10M11 20h6"/></svg>
+        </span>
+        <strong translate="no">Project Milestone</strong>
+      </div>
+
+      <div class="lamp-stage">
+        <svg class="desk-lamp" viewBox="0 0 400 300" role="presentation" aria-hidden="true">
+          <defs>
+            <linearGradient id="lampBeam" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="var(--lamp-color)" stop-opacity=".44"/>
+              <stop offset=".55" stop-color="var(--lamp-color)" stop-opacity=".14"/>
+              <stop offset="1" stop-color="var(--lamp-color)" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="bulbGlass" x1=".2" y1="0" x2=".8" y2="1">
+              <stop offset="0" stop-color="#f8fbff" stop-opacity=".94"/>
+              <stop offset=".28" stop-color="#a9bbdc" stop-opacity=".82"/>
+              <stop offset=".7" stop-color="#52627f" stop-opacity=".9"/>
+              <stop offset="1" stop-color="#202b40"/>
+            </linearGradient>
+            <linearGradient id="lampSocket" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#eef3fc"/>
+              <stop offset=".35" stop-color="#68758d"/>
+              <stop offset=".68" stop-color="#273247"/>
+              <stop offset="1" stop-color="#aab8cf"/>
+            </linearGradient>
+            <radialGradient id="bulbGlow">
+              <stop offset="0" stop-color="var(--lamp-color)" stop-opacity=".9"/>
+              <stop offset=".45" stop-color="var(--lamp-color)" stop-opacity=".28"/>
+              <stop offset="1" stop-color="var(--lamp-color)" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <path class="light-beam" d="M178 128 222 128 386 300 14 300Z" fill="url(#lampBeam)" stroke="none"/>
+          <g class="lamp-assembly">
+            <path class="ceiling-wire" d="M200-12v76" fill="none" stroke="#aab8cf" stroke-width="3"/>
+            <path class="bulb-neck" d="M187 58h26v19l-5 8h-16l-5-8z" fill="url(#lampSocket)" stroke="#dce5f4" stroke-width="1.5"/>
+            <ellipse class="bulb-aura" cx="200" cy="128" rx="42" ry="50" fill="url(#bulbGlow)"/>
+            <path class="bulb-glass" d="M200 78c-31 0-48 21-45 47 2 17 15 27 21 41l4 14h40l4-14c6-14 19-24 21-41 3-26-14-47-45-47z" fill="url(#bulbGlass)" stroke="#d5e0f3" stroke-width="2"/>
+            <ellipse class="bulb-highlight" cx="182" cy="112" rx="7" ry="21" fill="#fff" opacity=".22" transform="rotate(18 182 112)"/>
+            <path class="bulb-base" d="M177 178h46M179 185h42M183 192h34" fill="none" stroke="url(#lampSocket)" stroke-width="4" stroke-linecap="round"/>
+            <path class="bulb-tip" d="M190 198q10 8 20 0" fill="none" stroke="#aebbd0" stroke-width="3" stroke-linecap="round"/>
+            <path class="bulb-filament" d="M188 157l7-13 5 10 5-10 7 13" fill="none" stroke="var(--lamp-color)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+        </svg>
+        <div class="lamp-cord" id="lampCord">
+          <span class="lamp-cord-line" aria-hidden="true"></span>
+          <button
+            class="lamp-pull-control"
+            id="lampPull"
+            type="button"
+            aria-pressed="false"
+            aria-label="Đèn đang tắt. Kéo dây hoặc nhấn Enter hay phím cách để bật đèn."
+          >
+            <span class="lamp-cord-grip" aria-hidden="true"></span>
+          </button>
+        </div>
+        <p class="pull-hint" id="lampHint">Kéo dây để bắt đầu</p>
+      </div>
+      <span class="sr-only" id="lampStatus" role="status" aria-live="polite"></span>
+      <h1 class="sr-only">Project Milestone — theo dõi tiến độ đồ án</h1>
+    </section>
+
+    <section class="auth-panel" id="authFormPanel" aria-labelledby="formTitle">
+      <div class="auth-card">
+        <div class="auth-heading">
+          <p class="demo-label">Chế độ mô phỏng</p>
+          <h2 id="formTitle">Chào mừng trở lại</h2>
+          <p id="formSubtitle">Đăng nhập để tiếp tục theo dõi học phần.</p>
+          <p class="demo-disclaimer">Đây là giao diện dùng thử, chưa xác thực tài khoản thật.</p>
+          <div class="light-controls">
+            <span class="light-label" id="lightLabel">Màu ánh sáng</span>
+            <div class="light-options" role="group" aria-labelledby="lightLabel">
+              <button class="light-option active" type="button" data-light="blue" aria-label="Ánh sáng xanh dương" aria-pressed="true">
+                <span aria-hidden="true"></span>
+              </button>
+              <button class="light-option" type="button" data-light="amber" aria-label="Ánh sáng hổ phách" aria-pressed="false">
+                <span aria-hidden="true"></span>
+              </button>
+              <button class="light-option" type="button" data-light="violet" aria-label="Ánh sáng tím" aria-pressed="false">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <span class="sr-only" id="lightStatus" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="Chọn hình thức tài khoản">
+          <button id="loginTab" type="button" role="tab" aria-selected="true" aria-controls="loginForm" class="active">Đăng nhập</button>
+          <button id="registerTab" type="button" role="tab" aria-selected="false" aria-controls="registerForm">Đăng ký</button>
+        </div>
+
+        <form id="loginForm" novalidate role="tabpanel" aria-labelledby="loginTab">
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" name="email" type="email" autocomplete="email" spellcheck="false" placeholder="ten@example.edu.vn…" aria-describedby="loginEmailError" required>
+            <p class="form-error" id="loginEmailError"></p>
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Mật khẩu</label>
+            <div class="password-field">
+              <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu…" aria-describedby="loginPasswordError" required>
+              <button class="password-toggle" type="button" data-target="loginPassword" aria-label="Hiện mật khẩu">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <p class="form-error" id="loginPasswordError"></p>
+          </div>
+          <div class="form-row">
+            <label class="checkbox-label"><input id="rememberMe" type="checkbox" name="remember"><span>Ghi nhớ giao diện</span></label>
+            <button class="link-button" type="button" data-unavailable="Khôi phục mật khẩu">Quên mật khẩu?</button>
+          </div>
+          <button class="auth-submit" type="submit">Đăng nhập</button>
+
+          <div class="demo-divider"><span>Dùng thử giao diện</span></div>
+          <div class="role-options" role="group" aria-label="Chọn vai trò dùng thử">
+            <button type="button" class="role-button" data-role="student">
+              <span class="role-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m3 9 9-5 9 5-9 5z"/><path d="M7 12v5c3 2 7 2 10 0v-5"/></svg>
+              </span>
+              <span><strong>Sinh viên</strong><small>Xem trang chủ</small></span>
+            </button>
+            <button type="button" class="role-button" data-role="lecturer">
+              <span class="role-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7"/></svg>
+              </span>
+              <span><strong>Giảng viên</strong><small>Theo dõi lớp học</small></span>
+            </button>
+          </div>
+        </form>
+
+        <form id="registerForm" novalidate role="tabpanel" aria-labelledby="registerTab" hidden>
+          <div class="form-group">
+            <label for="registerName">Họ và tên</label>
+            <input id="registerName" name="name" type="text" autocomplete="name" placeholder="Nguyễn Văn An…" aria-describedby="registerNameError" required>
+            <p class="form-error" id="registerNameError"></p>
+          </div>
+          <div class="form-group">
+            <label for="registerCode">Mã số sinh viên</label>
+            <input id="registerCode" name="studentCode" type="text" autocomplete="off" spellcheck="false" placeholder="B2000001…" aria-describedby="registerCodeError" required>
+            <p class="form-error" id="registerCodeError"></p>
+          </div>
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input id="registerEmail" name="email" type="email" autocomplete="email" spellcheck="false" placeholder="ten@example.edu.vn…" aria-describedby="registerEmailError" required>
+            <p class="form-error" id="registerEmailError"></p>
+          </div>
+          <div class="form-group">
+            <label for="registerPassword">Mật khẩu</label>
+            <div class="password-field">
+              <input id="registerPassword" name="password" type="password" autocomplete="new-password" placeholder="Tối thiểu 8 ký tự…" aria-describedby="registerPasswordError" minlength="8" required>
+              <button class="password-toggle" type="button" data-target="registerPassword" aria-label="Hiện mật khẩu">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <p class="form-error" id="registerPasswordError"></p>
+          </div>
+          <div class="form-group">
+            <label for="registerConfirm">Xác nhận mật khẩu</label>
+            <div class="password-field">
+              <input id="registerConfirm" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Nhập lại mật khẩu…" aria-describedby="registerConfirmError" required>
+              <button class="password-toggle" type="button" data-target="registerConfirm" aria-label="Hiện mật khẩu">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <p class="form-error" id="registerConfirmError"></p>
+          </div>
+          <label class="checkbox-label terms"><input id="registerTerms" name="terms" type="checkbox" aria-describedby="registerTermsError" required><span>Tôi đồng ý với điều khoản sử dụng</span></label>
+          <p class="form-error" id="registerTermsError"></p>
+          <button class="auth-submit" type="submit">Đăng ký</button>
+          <p class="auth-note">Thao tác chỉ mô phỏng. Tài khoản chưa được lưu lên máy chủ.</p>
+        </form>
+        <div class="auth-status" id="authStatus" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+  <script src="js/data.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
