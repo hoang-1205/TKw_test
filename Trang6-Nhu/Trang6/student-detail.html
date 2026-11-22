@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thông tin sinh viên - Project Milestone</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #00008B;
+  --primary-2: #2B2BC8;
+  --primary-light: #E8E8FA;
+  --success: #16A34A;
+  --warning: #D97706;
+  --danger: #DC2626;
+  --bg: #F3F5FB;
+  --card: #FFFFFF;
+  --text: #1F2937;
+  --text-sub: #6B7280;
+  --border: #E5E7EB;
+  --shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* navbar */
+.navbar {
+  background: var(--primary);
+  color: #fff;
+  padding: 0 32px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.logo { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 700; color: #fff; }
+.logo:hover { text-decoration: none; }
+.nav-links { display: flex; gap: 6px; list-style: none; }
+.nav-links a {
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+.nav-links a:hover { background: rgba(255,255,255,0.15); opacity: 1; text-decoration: none; }
+.nav-links a.active { background: #fff; color: var(--primary); opacity: 1; font-weight: 600; }
+.user-box { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.role-tag {
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.logout { color: #fff; border: 1px solid rgba(255,255,255,0.5); padding: 6px 12px; border-radius: 8px; }
+.logout:hover { background: #fff; color: var(--primary); text-decoration: none; }
+
+.container {
+  max-width: 1280px;
+  margin: 28px auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 24px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.card h3 {
+  font-size: 16px;
+  color: var(--primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card h3::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--primary);
+}
+
+/* danh sach sinh vien */
+.sv-list { position: sticky; top: 90px; align-self: start; }
+.list-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.list-head h3 { margin-bottom: 0; }
+.count { background: var(--primary-light); color: var(--primary); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.search-box { position: relative; }
+.sv-list input, .sv-list select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  margin-bottom: 10px;
+  background: var(--bg);
+}
+.sv-list input:focus, .sv-list select:focus { outline: 2px solid var(--primary); border-color: transparent; background: #fff; }
+#studentList { list-style: none; max-height: 62vh; overflow-y: auto; margin-top: 4px; }
+#studentList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  border: 1px solid transparent;
+  transition: 0.2s;
+}
+#studentList li:hover { background: var(--primary-light); }
+#studentList li.active { background: var(--primary); color: #fff; }
+#studentList li.active .small { color: #d6d6f7; }
+#studentList li.active .avatar { background: #fff; }
+.sv-name { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot.done { background: var(--success); }
+.dot.pending { background: var(--warning); }
+.dot.late { background: var(--danger); }
+.legend { display: flex; gap: 12px; font-size: 12px; color: var(--text-sub); padding-top: 12px; border-top: 1px solid var(--border); margin-top: 8px; }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.small { font-size: 12px; color: var(--text-sub); }
+.empty { text-align: center; color: var(--text-sub); padding: 16px; }
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* banner */
+.hero {
+  background: var(--primary);
+  border-radius: 16px;
+  padding: 28px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.hero-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--primary);
+  font-size: 30px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.hero-info { flex: 1; z-index: 1; }
+.hero-info p { opacity: 0.85; font-size: 14px; }
+.hero-info h1 { font-size: 26px; margin: 2px 0 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { background: rgba(255,255,255,0.16); padding: 5px 12px; border-radius: 20px; font-size: 13px; }
+
+.hero-score {
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 12px;
+  padding: 10px 20px;
+}
+.hero-score b { display: block; font-size: 26px; }
+.hero-score span { font-size: 12px; opacity: 0.85; }
+
+/* tabs */
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  background: #fff;
+  padding: 6px;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.tab {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.tab:hover { color: var(--primary); background: var(--primary-light); }
+.tab.active { background: var(--primary); color: #fff; }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.35s; }
+
+/* ho so */
+.info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.info-item {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--bg);
+}
+.info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.info-item p { font-size: 12px; color: var(--text-sub); }
+.info-item b { font-size: 14px; font-weight: 600; word-break: break-all; }
+
+/* thong ke */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+.stat {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: var(--primary-light);
+}
+.stat p { color: var(--text-sub); font-size: 13px; }
+.stat h4 { font-size: 24px; color: var(--primary); }
+.stat.green .stat-icon { background: #DCFCE7; }
+.stat.green h4 { color: var(--success); }
+.stat.red .stat-icon { background: #FEE2E2; }
+.stat.red h4 { color: var(--danger); }
+
+.progress { height: 8px; background: var(--primary-light); border-radius: 10px; overflow: hidden; min-width: 80px; }
+.progress div { height: 100%; background: var(--primary); border-radius: 10px; }
+
+/* do an */
+.project-top {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px dashed var(--border);
+}
+.project-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.project-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.project-desc { color: var(--text-sub); line-height: 1.6; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.tag { background: var(--primary-light); color: var(--primary); padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.project-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.project-meta p { font-size: 12px; color: var(--text-sub); margin-bottom: 4px; }
+.members { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.member {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 30px;
+  background: var(--bg);
+  font-size: 14px;
+}
+.member .avatar { width: 30px; height: 30px; border-radius: 50%; font-size: 11px; }
+
+/* badge */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge.done { background: #DCFCE7; color: var(--success); }
+.badge.pending { background: #FEF3C7; color: var(--warning); }
+.badge.late { background: #FEE2E2; color: var(--danger); }
+.badge::before { content: "● "; }
+
+/* timeline - duong noi bang ::before, ::after */
+.timeline { list-style: none; position: relative; padding-left: 40px; }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: var(--border);
+  border-radius: 3px;
+}
+.tl-item { position: relative; padding-bottom: 20px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: "";
+  position: absolute;
+  left: -36px;
+  top: 14px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--border);
+  z-index: 2;
+}
+.tl-item::after {
+  content: "";
+  position: absolute;
+  left: -28px;
+  top: 32px;
+  width: 3px;
+  height: calc(100% - 14px);
+  z-index: 1;
+}
+.tl-item:last-child::after { display: none; }
+.tl-item.done::before { border-color: var(--success); background: var(--success); }
+.tl-item.done::after { background: var(--success); }
+.tl-item.late::before { border-color: var(--danger); background: var(--danger); }
+.tl-item.late::after { background: var(--danger); }
+.tl-item.pending::before { border-color: var(--warning); }
+
+.tl-box {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px 18px;
+  border-left: 4px solid var(--border);
+  transition: 0.2s;
+}
+.tl-item.done .tl-box { border-left-color: var(--success); }
+.tl-item.late .tl-box { border-left-color: var(--danger); }
+.tl-item.pending .tl-box { border-left-color: var(--warning); }
+.tl-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; }
+.tl-head h4 { font-size: 15px; }
+.tl-box p { font-size: 13px; color: var(--text-sub); margin-top: 4px; word-break: break-all; }
+.tl-box p b { color: var(--text); }
+
+.url-ok, .url-bad { margin-left: 8px; font-size: 12px; font-weight: 600; }
+.url-ok { color: var(--success); }
+.url-bad { color: var(--danger); }
+
+.next-name { margin-bottom: 12px; font-weight: 500; }
+.countdown { display: flex; gap: 12px; }
+.countdown div {
+  flex: 1;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 10px;
+  padding: 12px 4px;
+  text-align: center;
+}
+.countdown b { display: block; font-size: 24px; }
+.countdown span { font-size: 12px; opacity: 0.85; }
+.over { text-align: center; padding: 12px; font-weight: 600; color: var(--danger); }
+
+/* bang diem */
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; }
+th { background: var(--primary); color: #fff; padding: 12px; text-align: left; font-weight: 500; }
+th:first-child { border-radius: 10px 0 0 10px; }
+th:last-child { border-radius: 0 10px 10px 0; }
+td { padding: 14px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tbody tr:hover td { background: #FAFAFF; }
+.score {
+  display: inline-block;
+  min-width: 44px;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.score.high { background: #DCFCE7; color: var(--success); }
+.score.mid { background: var(--primary-light); color: var(--primary); }
+.score.low { background: #FEE2E2; color: var(--danger); }
+.score.none { color: var(--text-sub); }
+.total td { font-weight: 700; background: var(--primary-light); border-bottom: none; }
+.total td:first-child { border-radius: 10px 0 0 10px; }
+.total td:last-child { border-radius: 0 10px 10px 0; }
+
+footer { text-align: center; color: var(--text-sub); font-size: 13px; padding: 24px; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 1100px) {
+  .container { grid-template-columns: 1fr; }
+  .sv-list { position: static; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .info-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .navbar { padding: 0 16px; }
+  .user-box span:not(.role-tag) { display: none; }
+  .container { padding: 0 12px; }
+  .hero { flex-direction: column; text-align: center; }
+  .chips { justify-content: center; }
+  .info-grid, .project-meta { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; }
+  .tabs { display: flex; }
+  .tab { flex: 1; padding: 10px 8px; }
+  .table-wrap { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">Project Milestone</a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="index.html">Trang chủ</a></li>
+      <li><a href="timeline.html">Timeline</a></li>
+      <li><a href="grading.html">Chấm điểm</a></li>
+      <li><a href="student-detail.html" class="active">Sinh viên</a></li>
+    </ul>
+  </nav>
+  <div class="user-box">
+    <span class="role-tag">Giảng viên</span>
+    <span id="teacherName">ThS. Nguyễn Văn Minh</span>
+    <a href="login.html" class="logout">Đăng xuất</a>
+  </div>
+</header>
+
+<main class="container">
+  <aside class="sv-list">
+    <div class="card">
+      <div class="list-head">
+        <h3>Danh sách sinh viên</h3>
+        <span class="count" id="count">0</span>
+      </div>
+      <div class="search-box">
+        <input type="text" id="search" placeholder="Tìm theo tên hoặc MSSV...">
+      </div>
+      <select id="filter">
+        <option value="all">Tất cả trạng thái</option>
+        <option value="late">Có mốc trễ hạn</option>
+        <option value="pending">Có mốc chưa nộp</option>
+        <option value="done">Đã nộp đầy đủ</option>
+      </select>
+      <ul id="studentList"></ul>
+      <div class="legend">
+        <span><i class="dot done"></i>Đúng hạn</span>
+        <span><i class="dot pending"></i>Chưa nộp</span>
+        <span><i class="dot late"></i>Trễ hạn</span>
+      </div>
+    </div>
+  </aside>
+
+  <section id="detail"></section>
+</main>
+
+<footer>© 2026 Project Milestone - Hệ thống quản lý đồ án & tiến độ báo cáo</footer>
+
+<script>
+const sampleMilestones = [
+  { id: 1, name: "Báo cáo 1 - Phân tích đề & thiết kế UX", deadline: "2026-10-10T23:59:00" },
+  { id: 2, name: "Báo cáo 2 - Giao diện HTML5 & CSS3", deadline: "2026-11-07T23:59:00" },
+  { id: 3, name: "Báo cáo 3 - Xử lý JavaScript", deadline: "2026-11-28T23:59:00" },
+  { id: 4, name: "Báo cáo 4 - Hoàn thiện & bảo vệ đồ án", deadline: "2026-12-19T23:59:00" }
+];
+
+const sampleStudents = [
+  {
+    id: "SV01", name: "Nguyễn Văn An", mssv: "125000101", className: "25CT111",
+    email: "an.nv@st.lhu.edu.vn", phone: "0901 234 567", major: "Công nghệ thông tin",
+    project: {
+      name: "Phân hệ Quản lý Đồ án & Tiến độ Báo cáo",
+      desc: "Timeline các mốc deadline, badge trạng thái, form nộp link đồ án có kiểm tra URL và đồng hồ đếm ngược.",
+      tech: ["HTML5", "CSS3", "JavaScript"],
+      repo: "https://github.com/nhom1/project-milestone",
+      group: "Nhóm 1",
+      members: ["Nguyễn Văn An (Trưởng nhóm)", "Lê Thị Hoa", "Trần Quốc Bảo"]
+    },
+    submissions: [
+      { milestoneId: 1, link: "https://github.com/nhom1/project-milestone/tree/bao-cao-1", date: "2026-10-08T20:15:00" },
+      { milestoneId: 2, link: "https://github.com/nhom1/project-milestone/tree/bao-cao-2", date: "2026-11-05T21:30:00" },
+      { milestoneId: 2, link: "https://github.com/nhom1/project-milestone/tree/bao-cao-2-v2", date: "2026-11-07T10:00:00" }
+    ],
+    grades: {
+      1: { score: 8.5, comment: "Phân tích đề rõ ràng, wireframe timeline hợp lý." },
+      2: { score: 9, comment: "Đường nối timeline dùng ::before/::after đúng yêu cầu. Nên bổ sung bản mobile." }
+    }
+  },
+  {
+    id: "SV02", name: "Trần Thị Bích Ngọc", mssv: "125000102", className: "25CT111",
+    email: "ngoc.ttb@st.lhu.edu.vn", phone: "0912 345 678", major: "Công nghệ thông tin",
+    project: {
+      name: "Phân hệ Đánh giá & Phản hồi khách hàng",
+      desc: "Star Rating bằng CSS thuần, progress bar tỷ lệ đánh giá tích cực/tiêu cực, gửi đánh giá không tải lại trang.",
+      tech: ["HTML5", "CSS3", "JavaScript", "LocalStorage"],
+      repo: "https://github.com/nhom2/review-system",
+      group: "Nhóm 2",
+      members: ["Trần Thị Bích Ngọc (Trưởng nhóm)", "Phạm Văn Đức", "Võ Thị Mai"]
+    },
+    submissions: [
+      { milestoneId: 1, link: "https://github.com/nhom2/review-system/tree/bc1", date: "2026-10-12T09:00:00" },
+      { milestoneId: 2, link: "https://github.com/nhom2/review-system/tree/bc2", date: "2026-11-06T22:45:00" }
+    ],
+    grades: {
+      1: { score: 7, comment: "Nộp trễ 2 ngày. UX ổn nhưng thiếu luồng gửi đánh giá." },
+      2: { score: 8, comment: "Star Rating làm bằng CSS thuần tốt, progress bar hiển thị đúng tỷ lệ." }
+    }
+  },
+  {
+    id: "SV03", name: "Lê Minh Khang", mssv: "125000103", className: "25CT112",
+    email: "khang.lm@st.lhu.edu.vn", phone: "0923 456 789", major: "Công nghệ thông tin",
+    project: {
+      name: "Phân hệ Giỏ hàng & Thanh toán",
+      desc: "Thêm, xóa, cập nhật số lượng sản phẩm trong giỏ, tự tính tổng tiền và kiểm tra form thanh toán.",
+      tech: ["HTML5", "CSS3", "JavaScript"],
+      repo: "https://github.com/nhom3/gio-hang",
+      group: "Nhóm 3",
+      members: ["Lê Minh Khang (Trưởng nhóm)", "Đặng Thu Trang"]
+    },
+    submissions: [
+      { milestoneId: 1, link: "https://github.com/nhom3/gio-hang/tree/bc1", date: "2026-10-09T18:00:00" }
+    ],
+    grades: {
+      1: { score: 8, comment: "Phân tích đề đủ, cần vẽ rõ luồng thanh toán." }
+    }
+  },
+  {
+    id: "SV04", name: "Phạm Gia Huy", mssv: "125000104", className: "25CT112",
+    email: "huy.pg@st.lhu.edu.vn", phone: "0934 567 890", major: "Công nghệ thông tin",
+    project: {
+      name: "Phân hệ Quản lý Đồ án & Tiến độ Báo cáo",
+      desc: "Quản lý mốc báo cáo theo timeline, nhận xét của giảng viên và thống kê tỷ lệ nộp bài của lớp.",
+      tech: ["HTML5", "CSS3", "JavaScript", "LocalStorage"],
+      repo: "https://github.com/nhom4/project-milestone",
+      group: "Nhóm 4",
+      members: ["Phạm Gia Huy (Trưởng nhóm)", "Ngô Thanh Tùng", "Bùi Khánh Linh", "Hồ Minh Tuấn"]
+    },
+    submissions: [
+      { milestoneId: 1, link: "https://github.com/nhom4/project-milestone/tree/bc1", date: "2026-10-05T14:20:00" },
+      { milestoneId: 2, link: "https://github.com/nhom4/project-milestone/tree/bc2", date: "2026-11-03T16:40:00" },
+      { milestoneId: 3, link: "https://github.com/nhom4/project-milestone/tree/bc3", date: "2026-11-20T19:10:00" }
+    ],
+    grades: {
+      1: { score: 9, comment: "Rất tốt, chia mốc báo cáo chi tiết." },
+      2: { score: 9.5, comment: "Badge Đã nộp/Chưa nộp/Trễ hạn rõ ràng, responsive tốt." },
+      3: { score: 8.5, comment: "Kiểm tra URL và đếm ngược chạy ổn. Cần báo lỗi khi link thiếu https://." }
+    }
+  },
+  {
+    id: "SV05", name: "Võ Thanh Tâm", mssv: "125000105", className: "25CT113",
+    email: "tam.vt@st.lhu.edu.vn", phone: "0945 678 901", major: "Công nghệ thông tin",
+    project: {
+      name: "Phân hệ Tìm kiếm & Lọc sản phẩm",
+      desc: "Tìm kiếm theo từ khóa, lọc theo giá và danh mục, sắp xếp kết quả ngay trên trang.",
+      tech: ["HTML5", "CSS3", "JavaScript"],
+      repo: "https://github.com/nhom5/tim-kiem-loc",
+      group: "Nhóm 5",
+      members: ["Võ Thanh Tâm (Trưởng nhóm)", "Lý Gia Bảo", "Trịnh Hồng Nhung"]
+    },
+    submissions: [],
+    grades: {}
+  },
+  {
+    id: "SV06", name: "Đỗ Ngọc Hân", mssv: "125000106", className: "25CT113",
+    email: "han.dn@st.lhu.edu.vn", phone: "0956 789 012", major: "Công nghệ thông tin",
+    project: {
+      name: "Phân hệ Đánh giá & Phản hồi khách hàng",
+      desc: "Chọn số sao, nhập bình luận, hiển thị đánh giá mới ngay lập tức và lịch sử đánh giá trong hồ sơ cá nhân.",
+      tech: ["HTML5", "CSS3", "JavaScript"],
+      repo: "https://github.com/nhom6/review-feedback",
+      group: "Nhóm 6",
+      members: ["Đỗ Ngọc Hân (Trưởng nhóm)", "Châu Minh Phát", "Kiều Anh Thư"]
+    },
+    submissions: [
+      { milestoneId: 1, link: "https://github.com/nhom6/review-feedback/tree/bc1", date: "2026-10-10T22:00:00" },
+      { milestoneId: 2, link: "github.com/nhom6/review-feedback/tree/bc2", date: "2026-11-09T08:30:00" }
+    ],
+    grades: {
+      1: { score: 8, comment: "Phân tích đề đầy đủ, đúng yêu cầu học phần." },
+      2: { score: 6.5, comment: "Nộp trễ. Progress bar chưa tính đúng tỷ lệ tích cực/tiêu cực, cần sửa." }
+    }
+  }
+];
+
+// du lieu dung chung cho ca nhom, luu trong localStorage
+function loadData(key, sample) {
+  try {
+    const saved = localStorage.getItem(key);
+    if (saved) return JSON.parse(saved);
+    localStorage.setItem(key, JSON.stringify(sample));
+  } catch (e) {}
+  return sample;
+}
+
+const milestones = loadData("pm_milestones", sampleMilestones);
+const students = loadData("pm_students", sampleStudents);
+
+let currentId = null;
+
+function esc(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function formatDate(str) {
+  const d = new Date(str);
+  const pad = n => String(n).padStart(2, "0");
+  return pad(d.getDate()) + "/" + pad(d.getMonth() + 1) + "/" + d.getFullYear() + " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+}
+
+function initials(name) {
+  const parts = name.trim().split(" ");
+  return (parts[parts.length - 2][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+// lay lan nop moi nhat cua 1 moc
+function getLatest(sv, mId) {
+  const list = sv.submissions.filter(s => s.milestoneId === mId);
+  if (list.length === 0) return null;
+  return list.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+}
+
+// tra ve: done / late / pending
+function getStatus(sv, m) {
+  const sub = getLatest(sv, m.id);
+  const deadline = new Date(m.deadline);
+  if (sub) return new Date(sub.date) <= deadline ? "done" : "late";
+  return new Date() > deadline ? "late" : "pending";
+}
+
+const statusText = { done: "Đã nộp", pending: "Chưa nộp", late: "Trễ hạn" };
+
+function badge(status) {
+  return `<span class="badge ${status}">${statusText[status]}</span>`;
+}
+
+function scoreTag(score) {
+  if (score === null || score === undefined) return '<span class="score none">-</span>';
+  let cls = "low";
+  if (score >= 8) cls = "high";
+  else if (score >= 6.5) cls = "mid";
+  return `<span class="score ${cls}">${score}</span>`;
+}
+
+function getAvg(sv) {
+  const scores = Object.values(sv.grades).map(g => g.score);
+  if (scores.length === 0) return null;
+  return (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
+}
+
+function getSummary(sv) {
+  const sts = milestones.map(m => getStatus(sv, m));
+  const dueMilestones = milestones.filter(m => new Date(m.deadline) <= new Date() || getLatest(sv, m.id));
+  return {
+    submitted: milestones.filter(m => getLatest(sv, m.id)).length,
+    late: sts.filter(s => s === "late").length,
+    pending: sts.filter(s => s === "pending").length,
+    due: dueMilestones.length
+  };
+}
+
+function renderList() {
+  const keyword = document.getElementById("search").value.trim().toLowerCase();
+  const filter = document.getElementById("filter").value;
+  const ul = document.getElementById("studentList");
+
+  const result = students.filter(sv => {
+    const matchText = sv.name.toLowerCase().includes(keyword) || sv.mssv.includes(keyword);
+    const sum = getSummary(sv);
+    let matchFilter = true;
+    if (filter === "late") matchFilter = sum.late > 0;
+    if (filter === "pending") matchFilter = sum.pending > 0;
+    if (filter === "done") matchFilter = sum.late === 0 && sum.submitted >= sum.due;
+    return matchText && matchFilter;
+  });
+
+  document.getElementById("count").textContent = result.length;
+
+  if (result.length === 0) {
+    ul.innerHTML = `<li class="empty">Không tìm thấy sinh viên</li>`;
+    return;
+  }
+
+  ul.innerHTML = result.map(sv => {
+    const sum = getSummary(sv);
+    let st = "done";
+    if (sum.late > 0) st = "late";
+    else if (sum.submitted < sum.due) st = "pending";
+    return `
+      <li data-id="${sv.id}" class="${sv.id === currentId ? "active" : ""}">
+        <div class="avatar">${initials(sv.name)}</div>
+        <div style="flex:1; min-width:0">
+          <div class="sv-name">${esc(sv.name)}</div>
+          <div class="small">${sv.mssv} · ${sv.project.group}</div>
+        </div>
+        <i class="dot ${st}" title="${statusText[st]}"></i>
+      </li>`;
+  }).join("");
+
+  ul.querySelectorAll("li[data-id]").forEach(li => {
+    li.addEventListener("click", () => showStudent(li.dataset.id));
+  });
+}
+
+function showStudent(id) {
+  const sv = students.find(s => s.id === id);
+  if (!sv) return;
+  currentId = id;
+  try {
+    history.replaceState(null, "", "?id=" + id);
+  } catch (e) {}
+
+  const sum = getSummary(sv);
+  const avg = getAvg(sv);
+  const graded = Object.keys(sv.grades).length;
+
+  const tableHtml = milestones.map((m, i) => {
+    const g = sv.grades[m.id];
+    return `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${m.name}</td>
+        <td>${badge(getStatus(sv, m))}</td>
+        <td>${scoreTag(g ? g.score : null)}</td>
+        <td>${g ? esc(g.comment) : '<span class="small">Chưa chấm</span>'}</td>
+      </tr>`;
+  }).join("");
+
+  const timelineHtml = milestones.map(m => {
+    const st = getStatus(sv, m);
+    const sub = getLatest(sv, m.id);
+    return `
+      <li class="tl-item ${st}">
+        <article class="tl-box">
+          <header class="tl-head">
+            <h4>${m.name}</h4>
+            ${badge(st)}
+          </header>
+          <p>Hạn nộp: <time datetime="${m.deadline}"><b>${formatDate(m.deadline)}</b></time></p>
+          ${sub
+            ? `<p>Ngày nộp: <time datetime="${sub.date}"><b>${formatDate(sub.date)}</b></time></p>
+               <p>Link: <a href="${sub.link}" target="_blank">${esc(sub.link)}</a>
+                 ${isValidUrl(sub.link)
+                   ? '<span class="url-ok">✓ Link hợp lệ</span>'
+                   : '<span class="url-bad">✗ Link không hợp lệ</span>'}</p>`
+            : `<p>Chưa nộp bài cho mốc này.</p>`}
+        </article>
+      </li>`;
+  }).join("");
+
+  document.getElementById("detail").innerHTML = `
+    <div class="hero">
+      <div class="hero-avatar">${initials(sv.name)}</div>
+      <div class="hero-info">
+        <p>Hồ sơ sinh viên</p>
+        <h1>${esc(sv.name)}</h1>
+        <div class="chips">
+          <span class="chip">MSSV: ${sv.mssv}</span>
+          <span class="chip">Lớp: ${sv.className}</span>
+          <span class="chip">${sv.project.group}</span>
+        </div>
+      </div>
+      <div class="hero-score">
+        <b>${avg ?? "--"}</b>
+        <span>Điểm TB</span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="tab-profile">Hồ sơ sinh viên</button>
+      <button class="tab" data-tab="tab-grade">Xem điểm</button>
+      <button class="tab" data-tab="tab-project">Chi tiết đồ án</button>
+    </div>
+
+    <div class="tab-content active" id="tab-profile">
+      <div class="card">
+        <h3>Thông tin cá nhân</h3>
+        <div class="info-grid">
+          <div class="info-item"><div><p>Họ và tên</p><b>${esc(sv.name)}</b></div></div>
+          <div class="info-item"><div><p>MSSV</p><b>${sv.mssv}</b></div></div>
+          <div class="info-item"><div><p>Lớp</p><b>${sv.className}</b></div></div>
+          <div class="info-item"><div><p>Ngành</p><b>${sv.major}</b></div></div>
+          <div class="info-item"><div><p>Email</p><b>${sv.email}</b></div></div>
+          <div class="info-item"><div><p>Số điện thoại</p><b>${sv.phone}</b></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Thông tin học tập</h3>
+        <div class="info-grid">
+          <div class="info-item"><div><p>Học phần</p><b>Lập trình Front-end</b></div></div>
+          <div class="info-item"><div><p>Nhóm</p><b>${sv.project.group}</b></div></div>
+          <div class="info-item"><div><p>Giảng viên hướng dẫn</p><b>ThS. Nguyễn Văn Minh</b></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-grade">
+      <div class="stats">
+        <div class="stat">
+          <div><p>Điểm trung bình</p><h4>${avg ?? "--"}</h4></div>
+        </div>
+        <div class="stat">
+          <div><p>Số mốc đã chấm</p><h4>${graded}/${milestones.length}</h4></div>
+        </div>
+        <div class="stat green">
+          <div><p>Số mốc đã nộp</p><h4>${sum.submitted}/${milestones.length}</h4></div>
+        </div>
+        <div class="stat red">
+          <div><p>Mốc trễ hạn</p><h4>${sum.late}</h4></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Bảng điểm</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>STT</th><th>Mốc báo cáo</th><th>Trạng thái</th><th>Điểm</th><th>Nhận xét</th></tr>
+            </thead>
+            <tbody>
+              ${tableHtml}
+              <tr class="total"><td colspan="3">Điểm trung bình</td><td>${scoreTag(avg)}</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-project">
+      <div class="card">
+        <h3>Thông tin đồ án</h3>
+        <div class="project-top">
+          <div>
+            <p class="project-name">${esc(sv.project.name)}</p>
+            <p class="project-desc">${esc(sv.project.desc)}</p>
+            <div class="tags">${sv.project.tech.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <div><p>Repository</p><a href="${sv.project.repo}" target="_blank">${sv.project.repo}</a></div>
+          <div>
+            <p>Tiến độ nộp bài (${sum.submitted}/${milestones.length} mốc)</p>
+            <div class="progress"><div style="width:${sum.submitted / milestones.length * 100}%"></div></div>
+          </div>
+        </div>
+        <div class="members">
+          ${sv.project.members.map(mb => {
+            const isLeader = mb.includes("Trưởng nhóm");
+            const name = mb.replace(" (Trưởng nhóm)", "");
+            return `<div class="member ${isLeader ? "leader" : ""}">
+              <div class="avatar">${initials(name)}</div>${name}${isLeader ? " (Trưởng nhóm)" : ""}
+            </div>`;
+          }).join("")}
+        </div>
+      </div>
+      <div class="card">
+        <h3>Đếm ngược đến mốc báo cáo tiếp theo</h3>
+        <div id="countdownBox"></div>
+      </div>
+      <div class="card">
+        <h3>Các mốc báo cáo của đồ án</h3>
+        <ol class="timeline">${timelineHtml}</ol>
+      </div>
+    </div>
+  `;
+
+  document.querySelectorAll(".tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  startCountdown();
+  renderList();
+}
+
+function isValidUrl(link) {
+  try {
+    const url = new URL(link);
+    return (url.protocol === "http:" || url.protocol === "https:") && url.hostname.includes(".");
+  } catch (e) {
+    return false;
+  }
+}
+
+let timer = null;
+
+function startCountdown() {
+  clearInterval(timer);
+  const box = document.getElementById("countdownBox");
+  const next = milestones.find(m => new Date(m.deadline) > new Date());
+
+  if (!next) {
+    box.innerHTML = `<p class="over">Đã qua hạn tất cả các mốc báo cáo</p>`;
+    return;
+  }
+
+  box.innerHTML = `
+    <p class="next-name">${next.name} - hạn nộp ${formatDate(next.deadline)}</p>
+    <div class="countdown">
+      <div><b id="cdDay">0</b><span>Ngày</span></div>
+      <div><b id="cdHour">0</b><span>Giờ</span></div>
+      <div><b id="cdMin">0</b><span>Phút</span></div>
+      <div><b id="cdSec">0</b><span>Giây</span></div>
+    </div>`;
+
+  function tick() {
+    const diff = new Date(next.deadline) - new Date();
+    if (diff <= 0) {
+      clearInterval(timer);
+      box.innerHTML = `<p class="over">Đã hết hạn ${next.name}</p>`;
+      return;
+    }
+    document.getElementById("cdDay").textContent = Math.floor(diff / 86400000);
+    document.getElementById("cdHour").textContent = Math.floor(diff / 3600000) % 24;
+    document.getElementById("cdMin").textContent = Math.floor(diff / 60000) % 60;
+    document.getElementById("cdSec").textContent = Math.floor(diff / 1000) % 60;
+  }
+  tick();
+  timer = setInterval(tick, 1000);
+}
+
+document.getElementById("search").addEventListener("input", renderList);
+document.getElementById("filter").addEventListener("change", renderList);
+
+const params = new URLSearchParams(location.search);
+const startId = params.get("id") || students[0].id;
+renderList();
+showStudent(students.some(s => s.id === startId) ? startId : students[0].id);
+</script>
+</body>
+</html>
