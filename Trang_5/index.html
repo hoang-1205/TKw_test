@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#00008B">
+  <title>Chấm điểm & nhận xét | Project Milestone</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Bỏ qua điều hướng</a>
+  <header class="topbar">
+    <button id="menu-toggle" class="icon-button mobile-only" type="button" aria-label="Mở danh sách nhóm" aria-expanded="false" aria-controls="queue-sidebar">☰</button>
+    <div class="brand"><span class="brand-mark" aria-hidden="true">P<span>•</span></span><span><strong>Project Milestone</strong><small>Không gian giảng viên</small></span></div>
+    <div class="course"><span class="course-label">HỌC PHẦN</span><strong>Thiết kế & Lập trình Web</strong><span class="course-code">WEB301 · HK1 2026–2027</span></div>
+    <div class="top-progress"><div class="progress-caption"><span>Tiến độ chấm bài</span><strong id="progress-label">0/24 · 0%</strong></div><div class="progress-track" role="progressbar" aria-label="Tiến độ chấm bài" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0" id="progress-track"><span id="progress-fill"></span></div></div>
+    <div class="teacher"><span class="teacher-avatar" aria-hidden="true">MA</span><span><strong>ThS. Minh Anh</strong><small>Giảng viên phụ trách</small></span></div>
+  </header>
+
+  <div class="app-shell">
+    <div id="sidebar-scrim" class="sidebar-scrim" hidden></div>
+    <aside class="queue-sidebar" id="queue-sidebar" aria-label="Hàng đợi chấm bài">
+      <div class="sidebar-head"><div><p class="eyebrow">KHÔNG GIAN CHẤM BÀI</p><h1>Danh sách nhóm <span id="group-count">08</span></h1></div><button id="sidebar-close" class="icon-button mobile-only" type="button" aria-label="Đóng danh sách nhóm">✕</button></div>
+      <div class="queue-controls"><label class="search-wrap"><span class="sr-only">Tìm nhóm hoặc sinh viên</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input id="queue-search" type="search" placeholder="Tìm nhóm hoặc sinh viên…" autocomplete="off"></label><div id="filter-chips" class="filter-chips" role="group" aria-label="Lọc hàng đợi"></div></div>
+      <div class="queue-section-title"><span>HÀNG ĐỢI</span><span id="filtered-count">8 nhóm</span></div>
+      <nav id="queue-list" class="queue-list" aria-label="Chọn nhóm"></nav>
+      <div class="sidebar-foot"><span class="foot-dot"></span><span>Dữ liệu minh họa · Tự lưu trong phiên</span></div>
+    </aside>
+
+    <main id="main-content" class="workspace">
+      <div class="workspace-toolbar"><div class="crumb"><span>Chấm bài</span><span aria-hidden="true">/</span><strong id="toolbar-group">Nhóm 01</strong></div><div class="toolbar-right"><span class="shortcut-hint">Alt + ← / → để chuyển nhóm</span><div class="pager"><button id="prev-group" type="button" aria-label="Nhóm trước">← <span>Nhóm trước</span></button><button id="next-group" type="button" aria-label="Nhóm sau"><span>Nhóm sau</span> →</button></div></div></div>
+      <div class="milestone-bar"><div class="milestone-heading"><span class="eyebrow">ĐANG ĐÁNH GIÁ</span><strong id="current-project">—</strong></div><div id="milestone-tabs" class="milestone-tabs" role="tablist" aria-label="Chọn mốc báo cáo"></div></div>
+      <div id="empty-workspace" class="empty-workspace" hidden><div class="empty-icon">⌕</div><h2>Không tìm thấy nhóm phù hợp</h2><p>Thử một từ khóa hoặc bộ lọc khác để tiếp tục chấm bài.</p><button id="reset-filters" class="button secondary" type="button">Xóa bộ lọc</button></div>
+      <div id="split-area" class="split-area" role="tabpanel" tabindex="0" aria-labelledby="week-tab-1">
+        <section id="viewer-pane" class="pane viewer-pane" aria-labelledby="viewer-title"><div class="pane-inner"><div class="section-topline"><div><p class="eyebrow">01 / BÀI NỘP</p><h2 id="viewer-title">Xem bài nộp</h2></div><span id="submission-status" class="badge">—</span></div><div id="viewer-content"></div></div></section>
+        <div id="pane-resizer" class="pane-resizer" role="separator" tabindex="0" aria-label="Thay đổi độ rộng hai cột" aria-orientation="vertical" aria-valuemin="35" aria-valuemax="65" aria-valuenow="50"><span aria-hidden="true"></span></div>
+        <section id="grading-pane" class="pane grading-pane" aria-labelledby="grading-title"><div class="pane-inner grading-inner"><div class="section-topline grading-heading"><div><p class="eyebrow">02 / ĐÁNH GIÁ</p><h2 id="grading-title">Chấm điểm & nhận xét</h2></div><span id="draft-indicator" class="draft-indicator">Chưa thay đổi</span></div><div id="previous-score" class="previous-score" hidden></div><div id="grading-content"></div></div><footer class="action-footer"><span id="save-status" role="status" aria-live="polite">Chưa lưu thay đổi</span><div class="action-buttons"><button id="save-draft" class="button secondary" type="button">Lưu nháp</button><button id="submit-grade" class="button primary" type="button">Lưu & Gửi điểm <span aria-hidden="true">↗</span></button></div></footer></section>
+      </div>
+    </main>
+  </div>
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite"></div>
+  <div id="modal-root"></div>
+</body>
+</html>
