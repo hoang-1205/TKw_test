@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    // Trạng thái hiện tại
+    // Trạng thái hiện tại (Ban đầu KHÔNG chọn sẵn bất kỳ đồ án nào trong Phần 2)
     let submissions = loadSubmissions();
-    let currentSelectedId = submissions.length > 0 ? submissions[0].id : null;
+    let currentSelectedId = null;
     let isEditingMode = false;
 
     // --------------------------------------------------------------------------
@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Detail section (Phần 2)
     const elDetailSection = document.getElementById('spDetailSection');
+    const elDetailEmptyState = document.getElementById('spDetailEmptyState');
+    const elDetailContent = document.getElementById('spDetailContent');
+    const elBtnScrollToHistory = document.getElementById('spBtnScrollToHistory');
     const elDetailVersionName = document.getElementById('spDetailVersionName');
     const elDetailStatusBadge = document.getElementById('spDetailStatusBadge');
     const elDetailSubmitTime = document.getElementById('spDetailSubmitTime');
@@ -77,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const elBtnEditSubmission = document.getElementById('spBtnEditSubmission');
 
     // History section (Phần 3)
+    const elHistorySection = document.getElementById('spHistorySection');
     const elHistoryTableBody = document.getElementById('spHistoryTableBody');
     const elHistoryCount = document.getElementById('spHistoryCount');
     const elEmptyState = document.getElementById('spEmptyState');
@@ -308,11 +312,24 @@ document.addEventListener('DOMContentLoaded', () => {
         elBtnResetForm.style.display = 'none';
     }
 
+    // Gắn sự kiện cho nút "Đi tới Lịch sử nộp bài" trên khung Empty State của Phần 2
+    if (elBtnScrollToHistory) {
+        elBtnScrollToHistory.addEventListener('click', () => {
+            if (elHistorySection) {
+                elHistorySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
     // --------------------------------------------------------------------------
     // 8. HIỂN THỊ PHẦN 2: XEM CHI TIẾT & KIỂM TRA SAI SÓT
     // --------------------------------------------------------------------------
     function renderDetailSection(item) {
         if (!item) {
+            // Khi chưa có bản nộp nào được chọn -> Hiện khung Empty State, ẩn nội dung chi tiết
+            if (elDetailEmptyState) elDetailEmptyState.style.display = 'flex';
+            if (elDetailContent) elDetailContent.style.display = 'none';
+
             elDetailVersionName.textContent = 'Chưa có bài nộp nào';
             elDetailStatusBadge.className = 'sp-badge sp-badge-warning';
             elDetailStatusBadge.textContent = 'Chưa nộp';
@@ -320,8 +337,18 @@ document.addEventListener('DOMContentLoaded', () => {
             elDetailUrlContainer.innerHTML = '<span class="sp-text-muted">Chưa có liên kết</span>';
             elDetailNote.textContent = 'Chưa có dữ liệu ghi chú.';
             elBtnEditSubmission.disabled = true;
+
+            // Bỏ chọn highlight trên toàn bộ các dòng của bảng lịch sử
+            if (elHistoryTableBody) {
+                const rows = elHistoryTableBody.querySelectorAll('tr');
+                rows.forEach(r => r.classList.remove('is-selected'));
+            }
             return;
         }
+
+        // Khi có bản nộp được chọn -> Ẩn Empty State, hiện khung chi tiết
+        if (elDetailEmptyState) elDetailEmptyState.style.display = 'none';
+        if (elDetailContent) elDetailContent.style.display = 'block';
 
         elBtnEditSubmission.disabled = false;
         elDetailVersionName.textContent = item.version;
@@ -477,15 +504,10 @@ document.addEventListener('DOMContentLoaded', () => {
         submissions = submissions.filter(s => s.id !== id);
         saveSubmissions(submissions);
 
-        // Nếu bản đang xem ở Phần 2 chính là bản vừa bị xóa
+        // Nếu bản đang xem ở Phần 2 chính là bản vừa bị xóa -> Quay về Empty State
         if (currentSelectedId === id) {
-            if (submissions.length > 0) {
-                currentSelectedId = submissions[0].id;
-                renderDetailSection(submissions[0]);
-            } else {
-                currentSelectedId = null;
-                renderDetailSection(null);
-            }
+            currentSelectedId = null;
+            renderDetailSection(null);
         }
 
         // Render lại bảng
@@ -512,9 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCountdown();
     renderHistoryTable();
 
-    if (submissions.length > 0) {
-        renderDetailSection(submissions[0]);
-    } else {
-        renderDetailSection(null);
-    }
+    // Ban đầu KHÔNG tự động chọn hay hiển thị bất kỳ đồ án nào trong Phần 2 (hiển thị Empty State)
+    currentSelectedId = null;
+    renderDetailSection(null);
 });

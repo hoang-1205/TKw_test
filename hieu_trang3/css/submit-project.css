@@ -489,6 +489,55 @@ body.sp-body {
 }
 
 /* 10. PHẦN 2: CHI TIẾT MỚI NỘP & KIỂM TRA SAI SÓT */
+.sp-detail-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    background-color: var(--sp-bg-main);
+    border: 2px dashed var(--sp-border-color);
+    border-radius: var(--sp-radius-md);
+    min-height: 380px;
+}
+
+.sp-detail-empty-icon {
+    font-size: 46px;
+    margin-bottom: 12px;
+    opacity: 0.75;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+}
+
+.sp-detail-empty-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--sp-primary);
+    margin-bottom: 8px;
+}
+
+.sp-detail-empty-desc {
+    font-size: 13px;
+    color: var(--sp-text-muted);
+    max-width: 420px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+}
+
+.sp-detail-empty-desc strong {
+    color: var(--sp-primary);
+}
+
+.sp-detail-empty-desc em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--sp-text-main);
+}
+
+.sp-detail-content {
+    display: block;
+}
+
 .sp-detail-box {
     background-color: var(--sp-bg-main);
     border: 1px solid var(--sp-border-color);

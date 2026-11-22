@@ -164,80 +164,95 @@
                     </div>
                 </div>
 
-                <!-- KHUNG CHI TIẾT BẢN NỘP GẦN NHẤT -->
-                <div class="sp-detail-box" id="spLatestSubmissionBox">
-                    <div class="sp-detail-top">
-                        <div class="sp-detail-version-wrapper">
-                            <span class="sp-detail-sublabel">Phiên bản đang chọn xem:</span>
-                            <h3 class="sp-detail-version" id="spDetailVersionName">Chưa có bài nộp nào</h3>
-                        </div>
-                        <span class="sp-badge sp-badge-warning" id="spDetailStatusBadge">Chưa nộp</span>
-                    </div>
+                <!-- KHUNG TRẠNG THÁI TRỐNG (EMPTY STATE BAN ĐẦU KHI CHƯA CHỌN) -->
+                <div class="sp-detail-empty-state" id="spDetailEmptyState">
+                    <div class="sp-detail-empty-icon">📂</div>
+                    <h3 class="sp-detail-empty-title">Chưa có đồ án nào được chọn</h3>
+                    <p class="sp-detail-empty-desc">
+                        Vui lòng bấm nút <strong>"Xem chi tiết"</strong> tại <em>Phần 3: Lịch sử nộp bài</em> bên dưới (hoặc nộp đồ án mới ở Phần 1) để xem thông tin và kiểm tra sai sót.
+                    </p>
+                    <button type="button" class="sp-btn sp-btn-outline sp-btn-sm" id="spBtnScrollToHistory">
+                        <span>Đi tới Lịch sử nộp bài ↓</span>
+                    </button>
+                </div>
 
-                    <div class="sp-detail-grid">
-                        <div class="sp-detail-item">
-                            <span class="sp-detail-label">🕒 Thời gian nộp:</span>
-                            <span class="sp-detail-value" id="spDetailSubmitTime">--:--:-- --/--/----</span>
+                <!-- KHUNG NỘI DUNG CHI TIẾT (CHỈ HIỂN THỊ KHI ĐÃ CHỌN HOẶC NỘP ĐỒ ÁN) -->
+                <div class="sp-detail-content" id="spDetailContent" style="display: none;">
+                    <!-- KHUNG CHI TIẾT BẢN NỘP GẦN NHẤT -->
+                    <div class="sp-detail-box" id="spLatestSubmissionBox">
+                        <div class="sp-detail-top">
+                            <div class="sp-detail-version-wrapper">
+                                <span class="sp-detail-sublabel">Phiên bản đang chọn xem:</span>
+                                <h3 class="sp-detail-version" id="spDetailVersionName">Chưa có bài nộp nào</h3>
+                            </div>
+                            <span class="sp-badge sp-badge-warning" id="spDetailStatusBadge">Chưa nộp</span>
                         </div>
-                        <div class="sp-detail-item">
-                            <span class="sp-detail-label">🔗 Liên kết sản phẩm:</span>
-                            <div class="sp-detail-value" id="spDetailUrlContainer">
-                                <span class="sp-text-muted">Chưa có liên kết</span>
+
+                        <div class="sp-detail-grid">
+                            <div class="sp-detail-item">
+                                <span class="sp-detail-label">🕒 Thời gian nộp:</span>
+                                <span class="sp-detail-value" id="spDetailSubmitTime">--:--:-- --/--/----</span>
+                            </div>
+                            <div class="sp-detail-item">
+                                <span class="sp-detail-label">🔗 Liên kết sản phẩm:</span>
+                                <div class="sp-detail-value" id="spDetailUrlContainer">
+                                    <span class="sp-text-muted">Chưa có liên kết</span>
+                                </div>
+                            </div>
+                            <div class="sp-detail-item sp-detail-item-full">
+                                <span class="sp-detail-label">📝 Ghi chú từ sinh viên:</span>
+                                <p class="sp-detail-note" id="spDetailNote">Chưa có dữ liệu ghi chú.</p>
                             </div>
                         </div>
-                        <div class="sp-detail-item sp-detail-item-full">
-                            <span class="sp-detail-label">📝 Ghi chú từ sinh viên:</span>
-                            <p class="sp-detail-note" id="spDetailNote">Chưa có dữ liệu ghi chú.</p>
-                        </div>
                     </div>
-                </div>
 
-                <!-- KHU VỰC TỰ RÀ SOÁT / KIỂM TRA SAI SÓT TRƯỚC KHI CHỐT -->
-                <div class="sp-checklist-box">
-                    <h4 class="sp-checklist-title">
-                        <span class="sp-checklist-icon">⚠️</span> Danh sách tự kiểm tra sai sót (Rà soát nhanh)
-                    </h4>
-                    <p class="sp-checklist-desc">Sinh viên chủ động tích chọn để kiểm tra tính chính xác và đầy đủ:</p>
-                    
-                    <ul class="sp-checklist">
-                        <li class="sp-checklist-item">
-                            <label class="sp-checkbox-label">
-                                <input type="checkbox" class="sp-checkbox" id="chk1">
-                                <span class="sp-checkbox-custom"></span>
-                                <span class="sp-checkbox-text">Đường dẫn Google Drive / OneDrive đã bật quyền <strong>"Bất kỳ ai có liên kết đều có thể xem"</strong>?</span>
-                            </label>
-                        </li>
-                        <li class="sp-checklist-item">
-                            <label class="sp-checkbox-label">
-                                <input type="checkbox" class="sp-checkbox" id="chk2">
-                                <span class="sp-checkbox-custom"></span>
-                                <span class="sp-checkbox-text">Đường dẫn GitHub Repository là <strong>Public</strong> hoặc đã cấp quyền truy cập cho Giảng viên?</span>
-                            </label>
-                        </li>
-                        <li class="sp-checklist-item">
-                            <label class="sp-checkbox-label">
-                                <input type="checkbox" class="sp-checkbox" id="chk3">
-                                <span class="sp-checkbox-custom"></span>
-                                <span class="sp-checkbox-text">Đúng link mã nguồn/slide của <strong>phiên bản mới nhất</strong> (đã commit/push đủ mã nguồn)?</span>
-                            </label>
-                        </li>
-                        <li class="sp-checklist-item">
-                            <label class="sp-checkbox-label">
-                                <input type="checkbox" class="sp-checkbox" id="chk4">
-                                <span class="sp-checkbox-custom"></span>
-                                <span class="sp-checkbox-text">Đã đính kèm hướng dẫn cấu hình &amp; tài khoản kiểm thử (nếu có) trong phần Ghi chú?</span>
-                            </label>
-                        </li>
-                    </ul>
-                </div>
+                    <!-- KHU VỰC TỰ RÀ SOÁT / KIỂM TRA SAI SÓT TRƯỚC KHI CHỐT -->
+                    <div class="sp-checklist-box">
+                        <h4 class="sp-checklist-title">
+                            <span class="sp-checklist-icon">⚠️</span> Danh sách tự kiểm tra sai sót (Rà soát nhanh)
+                        </h4>
+                        <p class="sp-checklist-desc">Sinh viên chủ động tích chọn để kiểm tra tính chính xác và đầy đủ:</p>
+                        
+                        <ul class="sp-checklist">
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk1">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đường dẫn Google Drive / OneDrive đã bật quyền <strong>"Bất kỳ ai có liên kết đều có thể xem"</strong>?</span>
+                                </label>
+                            </li>
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk2">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đường dẫn GitHub Repository là <strong>Public</strong> hoặc đã cấp quyền truy cập cho Giảng viên?</span>
+                                </label>
+                            </li>
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk3">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đúng link mã nguồn/slide của <strong>phiên bản mới nhất</strong> (đã commit/push đủ mã nguồn)?</span>
+                                </label>
+                            </li>
+                            <li class="sp-checklist-item">
+                                <label class="sp-checkbox-label">
+                                    <input type="checkbox" class="sp-checkbox" id="chk4">
+                                    <span class="sp-checkbox-custom"></span>
+                                    <span class="sp-checkbox-text">Đã đính kèm hướng dẫn cấu hình &amp; tài khoản kiểm thử (nếu có) trong phần Ghi chú?</span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- NÚT CHỈNH SỬA / NỘP LẠI -->
-                <div class="sp-detail-actions">
-                    <button type="button" class="sp-btn sp-btn-outline" id="spBtnEditSubmission">
-                        <span class="sp-btn-icon">✏️</span>
-                        <span>Chỉnh sửa / Nộp lại bản này</span>
-                    </button>
-                    <span class="sp-detail-action-hint">Nút này sẽ đổ dữ liệu bản đang xem lên Form phía trên để bạn cập nhật nhanh.</span>
+                    <!-- NÚT CHỈNH SỬA / NỘP LẠI -->
+                    <div class="sp-detail-actions">
+                        <button type="button" class="sp-btn sp-btn-outline" id="spBtnEditSubmission">
+                            <span class="sp-btn-icon">✏️</span>
+                            <span>Chỉnh sửa / Nộp lại bản này</span>
+                        </button>
+                        <span class="sp-detail-action-hint">Nút này sẽ đổ dữ liệu bản đang xem lên Form phía trên để bạn cập nhật nhanh.</span>
+                    </div>
                 </div>
             </section>
         </div>
