@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#00008B">
+  <title>Project Milestone - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Bỏ qua đến nội dung</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Điều hướng chính">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M7 8.5h18v15H7z"/><path d="M11 12h10M11 16h10M11 20h6"/></svg>
+        </div>
+        <div><strong>Project</strong><span>Milestone</span></div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav" aria-label="Điều hướng theo vai trò">
+        <a class="nav-item active" href="index.html" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Trang chủ</span>
+        </a>
+        <button class="nav-item" type="button" data-unavailable="Timeline dự án">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg><span>Timeline dự án</span>
+        </button>
+        <button class="nav-item" type="button" data-unavailable="Đồ án của tôi">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 14v5h14v-5"/></svg><span>Đồ án của tôi</span>
+        </button>
+        <button class="nav-item" type="button" data-unavailable="Điểm và nhận xét">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg><span>Điểm và nhận xét</span>
+        </button>
+      </nav>
+      <button class="nav-item logout" type="button" id="logoutBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4v16h6M14 8l4 4-4 4M8 12h10"/></svg><span>Đăng xuất</span>
+      </button>
+    </aside>
+
+    <div class="main-column">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menuButton" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="sidebar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="topbar-title">
+          <h1>Dashboard</h1>
+          <p id="greeting">Tổng quan tiến độ học phần</p>
+        </div>
+        <div class="topbar-actions">
+          <div class="date-chip">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/></svg>
+            <time id="currentDate"></time>
+          </div>
+          <button class="icon-button notification-button" id="notificationButton" type="button" aria-label="Thông báo chung">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg>
+            <span class="notification-dot"></span>
+          </button>
+          <div class="role-chip">
+            <span class="avatar" id="avatarInitial">SV</span>
+            <span class="account-copy"><strong>Demo Mode</strong><small id="accountRole">Sinh viên</small></span>
+          </div>
+        </div>
+      </header>
+
+      <main id="main-content" class="dashboard">
+        <p class="demo-notice"><strong>Demo Mode.</strong> Vai trò chỉ đổi menu; chưa có xác thực hoặc phân quyền bảo mật thật.</p>
+        <section class="deadline-banner" aria-label="Deadline báo cáo chung gần nhất">
+          <div class="deadline-banner-main">
+            <span class="deadline-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+            </span>
+            <div>
+              <span>Deadline báo cáo chung gần nhất</span>
+                <strong id="deadlineMilestone">Đang tải…</strong>
+            </div>
+          </div>
+          <div class="deadline-date">
+            <span>Thời hạn</span>
+            <strong id="deadlineDate"></strong>
+          </div>
+          <div class="countdown" id="countdown" role="timer" aria-label="Thời gian còn lại đến báo cáo chung" aria-live="off">
+            <div><strong id="countDays">0</strong><span>Ngày</span></div>
+            <div><strong id="countHours">0</strong><span>Giờ</span></div>
+            <div><strong id="countMinutes">0</strong><span>Phút</span></div>
+            <div><strong id="countSeconds">0</strong><span>Giây</span></div>
+          </div>
+        </section>
+
+        <section class="kpi-grid" id="kpiGrid" aria-label="Thống kê chung toàn học phần"></section>
+
+        <section class="analytics-grid" aria-label="Biểu đồ thống kê">
+          <article class="panel">
+            <div class="panel-heading">
+              <div><h2>Tỷ lệ nộp đồ án</h2><p>Phân bố trạng thái toàn học phần</p></div>
+              <span class="panel-badge">Toàn hệ thống</span>
+            </div>
+            <div class="donut-layout">
+              <div class="donut-wrap">
+                <svg id="donutChart" viewBox="0 0 220 220" role="img" aria-label="Biểu đồ tỷ lệ trạng thái nộp đồ án"></svg>
+              </div>
+              <div class="chart-legend" id="donutLegend"></div>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading">
+              <div><h2>Báo cáo theo mốc</h2><p>Số đồ án có nộp theo từng mốc chung</p></div>
+              <span class="panel-badge">Toàn học phần</span>
+            </div>
+            <div class="bar-chart-wrap">
+              <svg id="barChart" viewBox="0 0 600 260" role="img" aria-label="Biểu đồ cột tiến độ nộp"></svg>
+            </div>
+          </article>
+        </section>
+
+        <section class="details-grid">
+          <article class="panel timeline-panel">
+            <div class="panel-heading">
+              <div><h2>Các mốc báo cáo chung</h2><p>Lịch trình áp dụng cho toàn học phần</p></div>
+              <button class="text-button" type="button" data-unavailable="Timeline đầy đủ">Xem timeline</button>
+            </div>
+            <ol class="mini-timeline" id="miniTimeline"></ol>
+          </article>
+
+          <article class="panel announcements-panel">
+            <div class="panel-heading">
+              <div><h2>Thông báo chung</h2><p>Cập nhật dành cho toàn bộ lớp</p></div>
+            </div>
+            <ul class="announcement-list" id="announcementList"></ul>
+          </article>
+        </section>
+
+        <section class="panel guidance-panel" aria-labelledby="guidanceTitle">
+          <div class="panel-heading">
+            <div><h2 id="guidanceTitle">Hướng dẫn thực hiện đồ án</h2><p>Các bước chung để theo dõi tiến độ học phần</p></div>
+          </div>
+          <ol class="guidance-list" id="guidanceList"></ol>
+        </section>
+      </main>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="sidebar-overlay" id="sidebarOverlay" hidden></div>
+  <script src="js/data.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
